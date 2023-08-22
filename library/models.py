@@ -19,3 +19,9 @@ class Book(models.Model):
 
     def __str__(self):
         return  self.title
+
+class Genre(models.Model):
+    name = models.CharField('Pavadinimas', max_length=25)
+
+    def __str__(self):
+        return self.name
