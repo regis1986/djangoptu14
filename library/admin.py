@@ -11,13 +11,16 @@ class BooksInstanceInLine(admin.TabularInline):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
+    search_fields = ('title', 'author__last_name')
     inlines = [BooksInstanceInLine]
 
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('book', 'id', 'status', 'due_back')
+    list_editable = ('status', 'due_back') # redaguojami laukai
     list_filter = ('status', 'due_back')
+    search_fields = ('id', 'book__title')
 
     fieldsets = (
         ('General', {'fields': ('id', 'book')}),
