@@ -23,8 +23,18 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all()[:2])
+
+    display_genre.short_description = 'Žanras'
+
+
 class Genre(models.Model):
     name = models.CharField('Pavadinimas', max_length=25, help_text='Sukurkite žanrą')
+
+    class Meta:
+        verbose_name = 'Žanras'
+        verbose_name_plural = 'Žanrai'
 
     def __str__(self):
         return self.name
@@ -51,5 +61,6 @@ class BookInstance(models.Model):
         ordering = ['due_back']
 
     def __str__(self):
-        return f'{self.id} {self.book.title} {self.book.author}'
+        # return f'{self.id} {self.book.title} {self.book.author}'
+        return f'{self.id}'
 
