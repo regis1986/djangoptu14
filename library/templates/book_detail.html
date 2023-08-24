@@ -2,7 +2,9 @@
 
 {% block content %}
 <h1>{{ book.title }}</h1>
-
-
-
+<p class="text-light bg-dark">Autorius: <a href="{% url 'author-one' book.author.id %}">{{ book.author }}</a></p>
+<p><strong>ISBN:</strong> {{ book.isbn }} </p>
+<p><strong>Žanras:</strong> {{ book.genre.all|join:',' }} </p>
+<hr/>
+<h4>Kopijos: </h4>
 {% endblock %}
