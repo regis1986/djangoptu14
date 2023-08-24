@@ -37,4 +37,11 @@ def author(request, author_id):
 
 class BookListView(generic.ListView):
     model = Book # modelioklase_list  -> taip atsiranda pavadinimas book_list
+    context_object_name = 'book_list'
     template_name = 'book_list.html'
+
+
+class BookDetailView(generic.DetailView):
+    model = Book
+    context_object_name = 'book'
+    template_name = 'book_detail.html'
