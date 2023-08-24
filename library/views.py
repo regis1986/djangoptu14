@@ -18,3 +18,10 @@ def index(request):
 
     return render(request, 'index.html', context=context_t)
 
+def authors(request):
+    authors = Author.objects.all()
+    print(authors)
+    context_t = {
+        'authors_t': authors
+    }
+    return render(request, 'authors.html', context=context_t)

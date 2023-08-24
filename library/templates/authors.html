@@ -1,0 +1,7 @@
+<h1>Autoriai</h1>
+<p>Mūsų kngų autorių sąrašas:</p>
+<ul>
+{% for author in authors_t %}
+<li> {{ author.last_name }} {{ author.first_name }}</li>
+{% endfor %}
+</ul>
