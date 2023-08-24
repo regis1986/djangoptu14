@@ -5,6 +5,7 @@ import uuid
 class Author(models.Model):
     first_name = models.CharField('Vardas', max_length=100)
     last_name = models.CharField('Pavarde', max_length=100)
+    description = models.TextField('Aprašymas', max_length=2000, default='Labai geras autorius')
 
     class Meta:
         ordering = ['last_name', 'first_name']

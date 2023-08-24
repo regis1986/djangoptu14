@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Book, Author, Genre, BookInstance
 
@@ -20,8 +20,16 @@ def index(request):
 
 def authors(request):
     authors = Author.objects.all()
-    print(authors)
+    # print(authors)
     context_t = {
         'authors_t': authors
     }
     return render(request, 'authors.html', context=context_t)
+
+
+def author(request, author_id):
+    single_author = get_object_or_404(Author, pk=author_id)
+    context_t = {
+        'author_t': single_author
+    }
+    return render(request, 'author.html', context=context_t)
