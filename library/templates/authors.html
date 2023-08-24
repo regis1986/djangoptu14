@@ -3,10 +3,10 @@
 {% block content %}
 
 <h1>Autoriai</h1>
-<p>Mūsų kngų autorių sąrašas:</p>
+<p>Mūsų knygų autorių sąrašas:</p>
 <ul>
 {% for author in authors_t %}
-<li> {{ author.last_name }} {{ author.first_name }}</li>
-{% endfor %}
+        <li><a href="{% url 'author-one' author.id %}">{{ author.last_name }} {{ author.first_name }}</a></li>
+    {% endfor %}
 </ul>
 {% endblock %}

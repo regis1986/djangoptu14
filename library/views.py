@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+# from django.http import HttpResponse
+from django.views import generic
 from .models import Book, Author, Genre, BookInstance
 
 
@@ -33,3 +34,7 @@ def author(request, author_id):
         'author_t': single_author
     }
     return render(request, 'author.html', context=context_t)
+
+class BookListView(generic.ListView):
+    model = Book # modelioklase_list  -> taip atsiranda pavadinimas book_list
+    template_name = 'book_list.html'

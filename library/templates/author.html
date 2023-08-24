@@ -5,4 +5,9 @@
 </hr>
 <p> {{ author_t.description }}</p>
 
+<hr/>
+<h5>Mes turime {{ author_t.first_name }} {{ author_t.last_name }} knygas: </h5>
+{% for book in author_t.books.all %}
+<li>{{ book.title }}</li>
+{% endfor %}
 {% endblock %}
