@@ -48,7 +48,7 @@ class Genre(models.Model):
 
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='bookinstance_set')
     due_back = models.DateField('Bus prieinama', null=True, blank=True)
 
     LOAN_STATUS = (
