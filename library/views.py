@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 # from django.http import HttpResponse
 from django.views import generic
 from django.db.models import Q
+from django.core.paginator import Paginator
 from .models import Book, Author, Genre, BookInstance
+
 
 
 def index(request):
@@ -21,10 +23,13 @@ def index(request):
     return render(request, 'index.html', context=context_t)
 
 def authors(request):
-    authors = Author.objects.all()
+    paginator = Paginator(Author.objects.all(), 3)
+    page_number = request.GET.get('page')
+    page_authors = paginator.get_page(page_number)
+    # authors = Author.objects.all()
     # print(authors)
     context_t = {
-        'authors_t': authors
+        'authors_t': page_authors
     }
     return render(request, 'authors.html', context=context_t)
 
