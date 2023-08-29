@@ -22,6 +22,11 @@ MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
                 <li><a href="{% url 'index' %}">Pradžia</a></li>
                 <li><a href="{% url 'books-all' %}">Visos knygos</a></li>
                 <li><a href="{% url 'authors-all' %}">Visi autoriai</a></li>
+                <li>
+                    <form action="{% url 'search-name' %}" method="get" class="form-group">
+                        <input type="text" name="search_text" placeholder="Paieška">
+                    </form>
+                </li>
             </ul>
             {% endblock %}
         </div>

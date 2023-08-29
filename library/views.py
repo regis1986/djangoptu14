@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 # from django.http import HttpResponse
 from django.views import generic
+from django.db.models import Q
 from .models import Book, Author, Genre, BookInstance
 
 
@@ -39,9 +40,22 @@ class BookListView(generic.ListView):
     model = Book # modelioklase_list  -> taip atsiranda pavadinimas book_list
     context_object_name = 'book_list'
     template_name = 'book_list.html'
+    paginate_by = 3  # supuslapiuoja po tris eilutes ir i sablona paduodamas page_obj
 
 
 class BookDetailView(generic.DetailView):
     model = Book
     context_object_name = 'book'
     template_name = 'book_detail.html'
+
+def search(request):
+    query = request.GET.get('search_text')
+    search_results = Book.objects.filter(
+        Q(title__icontains=query) |
+        Q(summary__icontains=query)
+    )
+    context_t = {
+        'query_t': query,
+        'search_results_t': search_results
+    }
+    return render(request, 'search.html', context=context_t)

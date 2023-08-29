@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Rezultatai pagal paiešką {{ query_t }}:</h3>
+{% if search_results_t %}
+<ul>
+  {% for book in search_results_t %}
+  <li><a href="{% url 'book-one' book.id %}"> {{ book.title }} </a> - {{ book.author }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Pagal Jūsų paiešką nieko nerasta</p>
+{% endif %}
+
+
+
+
+{% endblock %}
