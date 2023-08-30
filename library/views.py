@@ -23,7 +23,7 @@ def index(request):
     return render(request, 'index.html', context=context_t)
 
 def authors(request):
-    paginator = Paginator(Author.objects.all(), 3)
+    paginator = Paginator(Author.objects.all(), 2)
     page_number = request.GET.get('page')
     page_authors = paginator.get_page(page_number)
     # authors = Author.objects.all()
@@ -45,7 +45,7 @@ class BookListView(generic.ListView):
     model = Book # modelioklase_list  -> taip atsiranda pavadinimas book_list
     context_object_name = 'book_list'
     template_name = 'book_list.html'
-    paginate_by = 3  # supuslapiuoja po tris eilutes ir i sablona paduodamas page_obj
+    paginate_by = 4  # supuslapiuoja po tris eilutes ir i sablona paduodamas page_obj
 
 
 class BookDetailView(generic.DetailView):
