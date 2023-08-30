@@ -26,7 +26,7 @@ class Book(models.Model):
                             help_text='13 Simbolių <a href="https://lt.wikipedia.org/wiki/ISBN"> ISBN kodas</a>')
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True, related_name='books')
     genre = models.ManyToManyField('Genre', help_text='Išsirinkite žanrą(us)')
-    cover = models.ImageField('Viršelis', upload_to='covers', null=True)
+    cover = models.ImageField('Viršelis', upload_to='covers', null=True, blank=True)
 
     def __str__(self):
         return self.title
