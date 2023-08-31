@@ -8,26 +8,28 @@ from .models import Book, Author, Genre, BookInstance
 
 
 def index(request):
-    num_boks = Book.objects.all().count()
+    num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
     num_instances_available = BookInstance.objects.filter(status__exact='g').count()
     num_authors = Author.objects.count()
 
     username = request.user
-    num_visits = request.session.get('mum_visits', 1)
+
+    # kaupiam apsilankymų skaičių
+    num_visits = request.session.get('num_visits', 1)
     request.session['num_visits'] = num_visits + 1
 
     context_t = {
-        'num_books_t': num_boks,
+        'num_books_t': num_books,
         'num_instances_t': num_instances,
         'num_instances_available_t': num_instances_available,
         'num_authors_t': num_authors,
         'username_t': username,
         'num_visits_t': num_visits
-
     }
 
     return render(request, 'index.html', context=context_t)
+
 
 def authors(request):
     paginator = Paginator(Author.objects.all(), 2)
