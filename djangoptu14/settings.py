@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'library',
+    'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,14 +135,43 @@ LOGIN_REDIRECT_URL = '/'
 
 # setingas testavimui terminale
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-from .secret import EMAIL_HOST, EMAIL_POST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_USE_TLS
-# DEFAULT_FROM_EMAIL = "regis@regis.us.lt"
+from .secret import EMAIL_HOST, EMAIL_POST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_HOST = EMAIL_HOST
 EMAIL_POST = EMAIL_POST
-EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_USE_TLS = False
 EMAIL_HOST_USER = EMAIL_HOST_USER
 # el. pašto adresas iš kurio siųsite
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+
+TINYMCE_DEFAULT_CONFIG = {
+ 'height': 360,
+ 'width': 1120,
+ 'cleanup_on_startup': True,
+ 'custom_undo_redo_levels': 20,
+ 'selector': 'textarea',
+ 'plugins': '''
+ textcolor save link image media preview codesample contextmenu
+ table code lists fullscreen insertdatetime nonbreaking
+ contextmenu directionality searchreplace wordcount visualblocks
+ visualchars code fullscreen autolink lists charmap print hr
+ anchor pagebreak
+ ''',
+ 'toolbar1': '''
+ fullscreen preview bold italic underline | fontselect,
+ fontsizeselect | forecolor backcolor | alignleft alignright |
+ aligncenter alignjustify | indent outdent | bullist numlist table |
+ | link image media | codesample |
+ ''',
+ 'toolbar2': '''
+ visualblocks visualchars |
+ charmap hr pagebreak nonbreaking anchor | code |
+ ''',
+ 'contextmenu': 'formats | link image',
+ 'menubar': True,
+ 'statusbar': True,
+ }

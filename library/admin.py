@@ -17,14 +17,14 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ('book', 'id', 'status', 'due_back')
-    list_editable = ('status', 'due_back') # redaguojami laukai
+    list_display = ('book', 'id', 'status', 'due_back', 'reader')
+    list_editable = ('status', 'due_back', 'reader') # redaguojami laukai
     list_filter = ('status', 'due_back')
     search_fields = ('id', 'book__title')
 
     fieldsets = (
         ('General', {'fields': ('id', 'book')}),
-        ('Availability', {'fields': ('status', 'due_back')}),
+        ('Availability', {'fields': ('status', 'due_back', 'reader')}),
     )
 
 

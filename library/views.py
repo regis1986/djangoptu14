@@ -1,10 +1,13 @@
-from django.shortcuts import render, get_object_or_404
-# from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.views import generic
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .models import Book, Author, Genre, BookInstance
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 
 def index(request):
@@ -73,3 +76,44 @@ def search(request):
         'search_results_t': search_results
     }
     return render(request, 'search.html', context=context_t)
+
+# mano knygos vievsas
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name = 'user_books.html'
+    context_object_name = 'bookinstance_list'
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(reader=self.request.user).order_by('due_back')
+
+@csrf_protect
+def register(request):
+    if request.method == "POST":
+        # paimami duomenys iš formos
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        password2 = request.POST["password2"]
+
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, f"Vartotojo vardas {username} užimtas!")
+                return redirect('register-url') # jei uzimtas is naujo nukreipoiam i registracija
+
+            else: # tikrinama email, kai praejo password ir ussername patikrinimai
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, f"Vartotojas su email adresu {email} egzistuoja!")
+                    return redirect('register-url') # jei uzimtas is naujo nukreipoiam i registracija
+                ####### patikrinimai praeiti
+                else:
+                    ### sukuriam nauja useri
+                    User.objects.create_user(username=username, email=email, password=password)
+                    messages.success(request, f'Vartotojas {username} sėkmingai sukurtas')
+                    return redirect('login')
+
+
+
+
+
+    else:
+        return render(request, "registration/registration.html")
