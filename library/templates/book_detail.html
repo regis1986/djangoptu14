@@ -25,4 +25,18 @@
 {% else %}
     <p>Leidinio kopijų bibliotekoje nėra</p>
 {% endif %}
+<hr/>
+
+
+<h4>Atsiliepimai:</h4>
+{% if book.bookreview_set.all %}
+    {% for review_o in book.bookreview_set.all %}
+        <hr/>
+<img class="img-fluid rounded-circle" src = "{{ review_o.reviewer.profilis.nuotrauka.url }}" style="width: 50px; height: 50px;"/>
+<p class="bg-light"><em><strong>{{ review_o.reviewer }}</strong> {{ review_o.date_created }}</em></p>
+        <p>{{ review_o.content }}</p>
+    {% endfor %}
+{% else %}
+    <p>knyga atsiliepimų neturi...</p>
+{% endif %}
 {% endblock %}

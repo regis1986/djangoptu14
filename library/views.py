@@ -1,13 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
 from django.db.models import Q
 from django.core.paginator import Paginator
-from .models import Book, Author, Genre, BookInstance
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from .models import Book, Author, Genre, BookInstance
+from .forms import BookReviewForm
+
 
 
 def index(request):
@@ -16,7 +20,7 @@ def index(request):
     num_instances_available = BookInstance.objects.filter(status__exact='g').count()
     num_authors = Author.objects.count()
 
-    username = request.user
+    # username = request.user
 
     # kaupiam apsilankymų skaičių
     num_visits = request.session.get('num_visits', 1)
@@ -27,7 +31,7 @@ def index(request):
         'num_instances_t': num_instances,
         'num_instances_available_t': num_instances_available,
         'num_authors_t': num_authors,
-        'username_t': username,
+        # 'username_t': username,
         'num_visits_t': num_visits
     }
 
@@ -60,10 +64,31 @@ class BookListView(generic.ListView):
     paginate_by = 4  # supuslapiuoja po tris eilutes ir i sablona paduodamas page_obj
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(generic.edit.FormMixin, generic.DetailView):
     model = Book
     context_object_name = 'book'
     template_name = 'book_detail.html'
+    form_class = BookReviewForm
+
+    # nurodome kur pateksime po submit mygtuko formoj paspaudimo
+    def get_success_url(self):
+        return reverse('book-one', kwargs={'pk': self.object.id})
+
+    # formos custom validacija
+    def form_valid(self, form):
+        form.instance.book = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 def search(request):
     query = request.GET.get('search_text')
@@ -117,3 +142,8 @@ def register(request):
 
     else:
         return render(request, "registration/registration.html")
+
+
+@login_required
+def profilis(request):
+    return render(request, 'profilis.html')

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Author, Book, Genre, BookInstance
+from . models import Author, Book, Genre, BookInstance, BookReview, Profilis
 
 
 class BooksInstanceInLine(admin.TabularInline):
@@ -33,4 +33,11 @@ class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'display_books')
 
 
+
+@admin.register(BookReview)
+class BookReviewAdmin(admin.ModelAdmin):
+    list_display = ('book', 'date_created', 'reviewer', 'content')
+
+
 admin.site.register(Genre)
+admin.site.register(Profilis)
