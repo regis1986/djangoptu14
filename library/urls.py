@@ -1,5 +1,5 @@
 from django.urls import path
-from  . import views
+from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -11,4 +11,7 @@ urlpatterns = [
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path('register/', views.register, name='register-url'),
     path('profilis/', views.profilis, name='profilis-url'),
+    path('mybooks/new', views.BookbyUserCreateView.as_view(), name='my-borrowed-new'),
+    path('mybooks/<uuid:pk>/update',views.BookByUserUpdateView.as_view(), name='my-borrowed-update')
+
     ]
