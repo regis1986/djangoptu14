@@ -18,6 +18,7 @@
 
     </li>
     <a class="btn btn-secondary btn-sm" href="{% url 'my-borrowed-update' bookinst_o.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm" href="{% url 'my-borrowed-delete' bookinst_o.id %}">Ištrinti</a>
      {% endfor %}
 </ul>
 {% else %}

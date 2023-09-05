@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import Book, Author, Genre, BookInstance
-from .forms import BookReviewForm, UserUpdateForm, ProfilisUpdateForm
+from .forms import BookReviewForm, UserUpdateForm, ProfilisUpdateForm, UserBookCreateForm
 
 
 
@@ -167,9 +167,10 @@ def profilis(request):
 
 class BookbyUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = BookInstance
-    fields = ['book', 'due_back']
+    # fields = ['book', 'due_back']
     success_url = '/library/mybooks'
     template_name = 'user_book_form.html'
+    form_class = UserBookCreateForm
 
     def form_valid(self, form):
         form.instance.reader = self.request.user
@@ -189,3 +190,14 @@ class BookByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Upda
     def test_func(self):
         bookinst = self.get_object()
         return self.request.user == bookinst.reader
+
+
+class BookByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = BookInstance
+    template_name = 'user_book_delete.html'
+    success_url = '/library/mybooks'
+
+    def test_func(self):
+        bookinst = self.get_object()
+        return self.request.user == bookinst.reader
+
