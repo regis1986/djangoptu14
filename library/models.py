@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from datetime import date
 import uuid
@@ -23,6 +24,9 @@ class Author(models.Model):
 
     display_books.short_Description = 'Knygos'
 
+    def get_absolute_url(self):
+        return reverse('author-one', args=[str(self.id)])
+
 
 class Book(models.Model):
     title = models.CharField('Pavadinimas', max_length=200)
@@ -40,6 +44,9 @@ class Book(models.Model):
         return ', '.join(genre.name for genre in self.genre.all()[:2])
 
     display_genre.short_description = 'Žanras'
+
+    def get_absolute_url(self):
+        return reverse('book-one', args=[str(self.id)])
 
 
 class Genre(models.Model):

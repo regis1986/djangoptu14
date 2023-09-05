@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<img class="img-fluid rounded-circle" src="{{ user.profilis.nuotrauka.url }}" style="width: 150px; height: 150px;"/>
+<p class="text-primary">{{ user.username }}</p>
+<p class="text-secondary">{{ user.email }}</p>
 <h1>Mano paimtos knygos</h1>
 {% if bookinstance_list %}
 <ul>

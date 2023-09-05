@@ -60,16 +60,7 @@
         >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Test
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{% url 'authors-all' %}">Autoriai</a>
-    <a class="dropdown-item" href="{% url 'books-all' %}">Knygos</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
