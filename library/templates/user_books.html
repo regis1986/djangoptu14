@@ -5,7 +5,10 @@
 <img class="img-fluid rounded-circle" src="{{ user.profilis.nuotrauka.url }}" style="width: 150px; height: 150px;"/>
 <p class="text-primary">{{ user.username }}</p>
 <p class="text-secondary">{{ user.email }}</p>
-<h1>Mano paimtos knygos</h1>
+<h1>Mano paimtos knygos </h1>
+{% for group in user.groups.all %}
+    <p>{{ group.name }}</p>
+{% endfor %}
 {% if bookinstance_list %}
 <ul>
     {% for bookinst_o in bookinstance_list %}
@@ -18,7 +21,12 @@
 
     </li>
     <a class="btn btn-secondary btn-sm" href="{% url 'my-borrowed-update' bookinst_o.id %}">Redaguoti</a>
-    <a class="btn btn-danger btn-sm" href="{% url 'my-borrowed-delete' bookinst_o.id %}">Ištrinti</a>
+      {% for group in user.groups.all %}
+            {% if group.name == "Personalas"  %}
+                <a class="btn btn-danger btn-sm" href="{% url 'my-borrowed-delete' bookinst_o.id %}">Ištrinti</a>
+            {% endif %}
+        {% endfor %}
+
      {% endfor %}
 </ul>
 {% else %}

@@ -165,7 +165,7 @@ def profilis(request):
     return render(request, 'profilis.html', context=context_t)
 
 
-class BookbyUserCreateView(LoginRequiredMixin, generic.CreateView):
+class BookbyUserCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = BookInstance
     # fields = ['book', 'due_back']
     success_url = '/library/mybooks'
@@ -175,6 +175,9 @@ class BookbyUserCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.reader = self.request.user
         return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Personalas').exists()
 
 
 class BookByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
